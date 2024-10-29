@@ -24,8 +24,21 @@ services:
     networks:
       - my_network
 
+  app:
+    image: openjdk:11-jre-slim
+    container_name: app_container
+    volumes:
+      - ./myApp/target:/app # Monta la carpeta 'target' donde se encuentra el JAR
+    working_dir: /app # Cambia el directorio de trabajo a donde está el JAR
+    command: java -jar myApp-1.0-SNAPSHOT.jar # Ejecuta el JAR
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+
 volumes:
   postgres_data:
 
 networks:
-  my_network:
+  my_network: 
+    name: my_network
